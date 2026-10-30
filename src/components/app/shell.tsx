@@ -96,8 +96,8 @@ export function Screen({ children, nav = true }: { children: ReactNode; nav?: bo
   const path = useRouterState({ select: (s) => s.location.pathname });
   const { t, toast } = useStore();
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-background pb-20 shadow-2xl md:border-x">
-      {children}
+    <div className="mx-auto min-h-dvh max-w-md bg-background pb-20 shadow-2xl md:border-x">
+      <main>{children}</main>
       {toast && (
         <div className="fixed left-1/2 top-16 z-50 -translate-x-1/2 rounded-full bg-popover px-4 py-2 text-sm shadow-glow">
           {toast}

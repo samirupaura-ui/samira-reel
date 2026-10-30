@@ -69,7 +69,7 @@ function Create() {
             }}
           />
         </label>
-        <textarea
+        <textarea aria-label="इनपुट"
           value={cap}
           onChange={(e) => setCap(e.target.value)}
           rows={3}

@@ -32,7 +32,7 @@ function Live() {
     return () => clearInterval(t);
   }, []);
   return (
-    <div className="relative mx-auto h-screen max-w-md overflow-hidden">
+    <div className="relative mx-auto h-dvh max-w-md overflow-hidden">
       <img
         src="https://picsum.photos/seed/livebg/720/1280"
         alt=""

@@ -27,7 +27,7 @@ function Messages() {
 
   if (chat)
     return (
-      <div className="mx-auto flex h-screen max-w-md flex-col">
+      <div className="mx-auto flex h-dvh max-w-md flex-col">
         <header className="flex items-center gap-3 border-b px-3 py-3">
           <button onClick={() => setOpen(null)} aria-label="Back">
             <ArrowLeft />
@@ -74,7 +74,7 @@ function Messages() {
             }
           }}
         >
-          <input
+          <input aria-label="इनपुट"
             value={txt}
             onChange={(e) => setTxt(e.target.value)}
             placeholder="संदेश लिखें…"

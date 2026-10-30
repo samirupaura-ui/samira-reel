@@ -25,7 +25,7 @@ function Reels() {
   const s = useStore();
   return (
     <Screen>
-      <div className="no-scrollbar h-[calc(100vh-4.5rem)] snap-y snap-mandatory overflow-y-scroll">
+      <div className="no-scrollbar h-[calc(100dvh-4.5rem)] snap-y snap-mandatory overflow-y-scroll">
         {REELS.map((r) => {
           const u = userById(r.userId);
           const liked = s.liked.has(r.id);
