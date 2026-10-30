@@ -10,7 +10,7 @@ A Hindi-first, mobile-first photo and reel sharing web app built with **TanStack
 
 ## Run it locally (free)
 
-Requirements: [Bun](https://bun.sh) 1.1+ (free). Node.js 20+ also works with `npm`.
+Requirements: **Node.js 22.12+** (use a current Node 22 LTS release) and npm, or [Bun](https://bun.sh) 1.1+ (free). Capacitor 8 needs Node 22+, and the installed Vite version needs at least 22.12 on the Node 22 line.
 
 ```bash
 bun install        # install dependencies
@@ -21,6 +21,18 @@ bunx eslint src    # lint
 ```
 
 No account, API key, database or paid service is needed to run the app.
+
+Equivalent npm commands (there is a committed `bun.lock`, not a committed npm lockfile):
+
+```bash
+npm install
+npm run dev -- --port 8080
+npm run build
+npm test
+npm run lint
+```
+
+For reproducible Bun installation use `bun install --frozen-lockfile`. Outside Lovable, `bun run dev` / `npm run dev` may default to port 5173; pass `-- --port 8080` to npm as above to select port 8080 explicitly.
 
 ---
 
@@ -108,10 +120,80 @@ git push -u origin main
 
 ## Android APK
 
-Possible for free, but not built in this repo:
+**Prepared for a free local Capacitor build; no APK has been built.** No hosted website, billing, account, API key, database, or paid service is needed. The ordinary `npm run build` web build is unchanged.
 
-- Publish the web app to a public HTTPS URL, then wrap it with **PWABuilder** (pwabuilder.com) or **Capacitor + Android Studio** on your own computer.
-- Side-loading the APK is free. Listing on Google Play needs a one-time developer fee.
+Added Capacitor **8.6.0** (`core`, `android`, and development-only `cli`), `capacitor.config.ts`, and a separate `vite.capacitor.config.ts`. The Android build produces a TanStack SPA shell at **`dist/android/client/index.html`** and its assets. Capacitor copies only that client directory; the temporary server build is not packaged or run on Android. There is no `server.url`, remote app wrapper, or new authentication implementation.
+
+The initial application ID is `app.samirareel.android` and the display name is **SamiraReel**. The identifier is a local packaging default, not proof of domain ownership or a Play Store registration. If you need a different permanent ID, edit it **before** generating `android/`; changing it later requires native-project changes.
+
+### Free local prerequisites
+
+1. Install Node.js **22.12+** and npm.
+2. Install the current stable **Android Studio** from [developer.android.com/studio](https://developer.android.com/studio). Capacitor 8 requires **Android Studio Otter 2025.2.1 or newer**, with **JDK 21** (the bundled runtime is suitable).
+3. In Android Studio → **More Actions → SDK Manager** (or **Settings → Languages & Frameworks → Android SDK**), install **Android SDK Platform 36**, **SDK Build-Tools 36.x**, **Android SDK Platform-Tools**, and **Android SDK Command-line Tools (latest)**. Accept the SDK licenses. Let Android Studio download the Gradle version selected by the generated project; a separate global Gradle install is unnecessary.
+4. For testing, create an emulator in **Device Manager**, or enable **Developer options → USB debugging** on a real Android phone and connect it by USB.
+
+The current sandbox has no Java/Android SDK/Gradle toolchain. Native project generation and APK compilation are left to your local computer. `cap add android` itself normally only needs Node and the installed Capacitor packages, not Java; compilation requires the complete Android toolchain above. The generated native project is not included in this preparation pass.
+
+### Generate the Android project once
+
+From the exported project folder:
+
+```bash
+npm install
+npm run build:android
+# Confirm dist/android/client/index.html exists before continuing.
+npm run android:add
+npm run android:sync
+npm run android:open
+```
+
+Run `android:add` **only once** when `android/` does not yet exist. Do not delete an existing native project to repeat setup. `android:sync` rebuilds the bundled demo and updates the existing native project; it does not build an APK. Keep the generated Android source and Gradle wrapper in your local repository, but not SDK paths, build output, signing keys, or copied web assets. Before committing native files, add these exclusions to your local root `.gitignore` (the sandbox's root `.gitignore` is managed/read-only):
+
+```gitignore
+android/.gradle/
+android/.kotlin/
+android/local.properties
+android/**/build/
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+*.apk
+*.aab
+*.jks
+*.keystore
+```
+
+### Build a debug APK in Android Studio
+
+1. Open the generated **`android/`** folder (the `android:open` command does this).
+2. Wait for Gradle sync. Use Android Studio's bundled **JDK 21** in **Settings → Build, Execution, Deployment → Build Tools → Gradle**. If asked for the SDK location, select the installed SDK; Android Studio creates `android/local.properties`.
+3. Select the **debug** build variant, then **Build → Generate App Bundles or APKs → Generate APKs** (some versions label this **Build Bundle(s) / APK(s) → Build APK(s)**).
+4. The debug APK is normally **`android/app/build/outputs/apk/debug/app-debug.apk`**. Use the displayed **Locate** link to confirm it exists. Debug signing is automatic and free; this is a test APK, not a release upload.
+5. Run on a phone/emulator using Android Studio's **Run** button, or install the APK using `adb install -r android/app/build/outputs/apk/debug/app-debug.apk` when the device is connected and authorized.
+
+Optional terminal build after Android Studio has configured JDK/SDK:
+
+```bash
+# macOS / Linux, from the project root
+cd android
+./gradlew assembleDebug
+
+# Windows PowerShell, from the project root instead
+# Set-Location android
+# .\gradlew.bat assembleDebug
+```
+
+After web changes, run `npm run android:sync`, then rebuild the APK. Never add production signing keys or passwords to source control. Local debug APK creation and sideloading are free; Google Play distribution has a separate developer registration fee and is not configured here.
+
+### Android limitations and branding
+
+- The HTML/app code is bundled locally; existing remote sample photos, videos, and Google Fonts still need an internet connection. This is **not** a fully offline media package.
+- Data is saved only in the Android WebView's local storage, separate from your desktop browser. Clearing app data or uninstalling loses it. No cloud sync or secure account exists.
+- OTP, Google sign-in, AI, messages, calls, live streams, and payouts remain the existing **demo-only** experiences. Packaging does not send SMS, start OAuth, deliver messages, call providers, broadcast video, or pay anyone.
+- Android hardware Back, file picking, sharing/clipboard, keyboard layout, safe areas, and media behavior must be tested on an actual emulator/device; no native camera, push, secure-auth, or other feature plugins are added.
+- The original logo remains unavailable; the documented `LOGO_URL` integration point above is preserved unchanged. No logo or launcher icon has been created or substituted in this pass. `cap add android` supplies stock template launcher assets locally: these are **not** your logo and must not be presented as final branding. Replace them only with owner-approved launcher assets; do not crop/recolor/redesign the original logo.
+- Neither the Android-specific production bundle nor a native APK should be described as verified until the commands above complete and the app runs on a device.
 
 ---
 
@@ -125,4 +207,6 @@ src/lib/persist.ts       local-only browser storage
 src/components/app/      shell (nav, top bar, badges) and post card
 src/routes/              one file per screen
 src/test/                vitest tests
+capacitor.config.ts      Android identifier, name, and local webDir
+vite.capacitor.config.ts separate bundled SPA build for Android
 ```

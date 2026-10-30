@@ -11,3 +11,4 @@
 
 - App state is React context (src/lib/store.tsx) with sample data in src/lib/data.ts, persisted only to this browser via src/lib/persist.ts (loaded in useEffect to stay SSR-safe); no backend, so auth/AI/chat/calls/live/payouts stay demo-labelled.
 - Brand logo is swapped via LOGO_URL in src/lib/brand.ts so the owner's original logo is used unchanged.
+- Capacitor uses a separate TanStack SPA build in vite.capacitor.config.ts with bundled client assets in dist/android/client and no server URL; this preserves the default web/SSR build and keeps Android demo state device-local.
