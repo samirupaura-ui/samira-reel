@@ -49,7 +49,7 @@ function Home() {
         <div className="fixed inset-0 z-50 mx-auto max-w-md bg-background" onClick={() => setStory(story < USERS.length - 1 ? story + 1 : null)}>
           <div className="absolute inset-x-2 top-2 flex gap-1">{USERS.map((_, i) => <span key={i} className={`h-0.5 flex-1 rounded ${i <= story ? "bg-foreground" : "bg-foreground/30"}`} />)}</div>
           <div className="absolute left-3 right-3 top-5 z-10 flex items-center gap-2 text-sm font-semibold">
-            <Avatar src={USERS[story].avatar} size={32} />{USERS[story].handle}
+            <Avatar src={USERS[story]!.avatar} size={32} />{USERS[story]!.handle}
             <button className="ml-auto" aria-label="Close" onClick={(e) => { e.stopPropagation(); setStory(null); }}><X /></button>
           </div>
           <img src={`https://picsum.photos/seed/story${story}/720/1280`} alt="" className="h-full w-full object-cover" />

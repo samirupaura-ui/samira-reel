@@ -34,7 +34,7 @@ function SettingsPage() {
       </section>
       <section className="divide-y px-4">
         <h2 className="pb-1 text-xs font-semibold uppercase text-muted-foreground">गोपनीयता</h2>
-        {Object.keys(LABELS).map((k) => <Toggle key={k} label={LABELS[k]} on={s.privacy[k]} onChange={(v) => s.setPrivacy(k, v)} />)}
+        {Object.keys(LABELS).map((k) => <Toggle key={k} label={LABELS[k] ?? k} on={!!s.privacy[k]} onChange={(v) => s.setPrivacy(k, v)} />)}
       </section>
       <section className="p-4">
         <h2 className="mb-2 text-xs font-semibold uppercase text-muted-foreground">ब्लॉक किए गए ({s.blocked.size})</h2>

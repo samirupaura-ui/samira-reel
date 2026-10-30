@@ -4,7 +4,7 @@ import { PhoneOff, Mic, MicOff, Video, VideoOff } from "lucide-react";
 import { DemoBadge } from "@/components/app/shell";
 
 export const Route = createFileRoute("/call")({
-  validateSearch: (s: Record<string, unknown>) => ({ name: String(s.name ?? "मित्र"), video: s.video === true || s.video === "true" }),
+  validateSearch: (s: Record<string, unknown>) => ({ name: String(s["name"] ?? "मित्र"), video: s["video"] === true || s["video"] === "true" }),
   head: () => ({
     meta: [
       { title: "कॉल (प्रोटोटाइप) — SamiraReel" },

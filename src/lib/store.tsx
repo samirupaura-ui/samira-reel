@@ -56,7 +56,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     chats, sendMessage: (chatId, text) => {
       const now = new Date().toLocaleTimeString("hi-IN", { hour: "2-digit", minute: "2-digit" });
       setChats((c) => c.map((ch) => (ch.id === chatId ? { ...ch, messages: [...ch.messages, { from: "me", text, time: now }] } : ch)));
-      setTimeout(() => setChats((c) => c.map((ch) => (ch.id === chatId ? { ...ch, messages: [...ch.messages, { from: ch.group ? ch.members![0] : "u1", text: "😊 (डेमो ऑटो-रिप्लाई)", time: now }] } : ch))), 1200);
+      setTimeout(() => setChats((c) => c.map((ch) => (ch.id === chatId ? { ...ch, messages: [...ch.messages, { from: (ch.group ? ch.members?.[0] : undefined) ?? "u1", text: "😊 (डेमो ऑटो-रिप्लाई)", time: now }] } : ch))), 1200);
     },
     toast, notify,
   };
