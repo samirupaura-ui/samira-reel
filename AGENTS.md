@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- App state is in-memory React context (src/lib/store.tsx) with sample data in src/lib/data.ts; no backend yet, so all auth/AI/chat/calls/payouts are demo-labelled.
+- Brand logo is swapped via LOGO_URL in src/lib/brand.ts so the owner's original logo is used unchanged.
