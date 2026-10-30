@@ -64,12 +64,19 @@
   --border: oklch(0.28 0.012 330);
   --input: oklch(0.28 0.012 330);
   --ring: oklch(0.66 0.24 355);
-  --gradient-brand: linear-gradient(135deg, oklch(0.75 0.17 55), oklch(0.66 0.24 355), oklch(0.55 0.22 330));
+  --gradient-brand: linear-gradient(
+    135deg,
+    oklch(0.75 0.17 55),
+    oklch(0.66 0.24 355),
+    oklch(0.55 0.22 330)
+  );
   --shadow-glow: 0 10px 30px -10px oklch(0.66 0.24 355 / 55%);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -77,20 +84,54 @@
   }
 }
 
-@utility bg-brand { background-image: var(--gradient-brand); }
+@utility bg-brand {
+  background-image: var(--gradient-brand);
+}
 @utility text-brand {
   background-image: var(--gradient-brand);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-@utility shadow-glow { box-shadow: var(--shadow-glow); }
-@utility story-ring { background-image: var(--gradient-brand); padding: 2px; border-radius: 9999px; }
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+@utility story-ring {
+  background-image: var(--gradient-brand);
+  padding: 2px;
+  border-radius: 9999px;
+}
 @utility no-scrollbar {
   scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
-@utility kenburns { animation: kb 12s ease-in-out infinite alternate; }
-@keyframes kb { from { transform: scale(1); } to { transform: scale(1.15) translate(-2%, -2%); } }
-@keyframes pop { 0% { transform: scale(0); opacity: 0 } 40% { transform: scale(1.2); opacity: 1 } 100% { transform: scale(1); opacity: 0 } }
-@utility animate-pop { animation: pop 0.8s ease-out forwards; }
+@utility kenburns {
+  animation: kb 12s ease-in-out infinite alternate;
+}
+@keyframes kb {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.15) translate(-2%, -2%);
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@utility animate-pop {
+  animation: pop 0.8s ease-out forwards;
+}
