@@ -50,6 +50,7 @@ function Reels() {
                   214
                 </button>
                 <button
+                  aria-label="Share"
                   onClick={() => {
                     navigator.clipboard?.writeText(location.href);
                     s.notify("लिंक कॉपी हुआ 🔗");
@@ -57,7 +58,7 @@ function Reels() {
                 >
                   <Send className="h-7 w-7" />
                 </button>
-                <button onClick={() => s.toggleSave(r.id)}>
+                <button aria-label="Save" onClick={() => s.toggleSave(r.id)}>
                   <Bookmark className={`h-7 w-7 ${s.saved.has(r.id) ? "fill-foreground" : ""}`} />
                 </button>
               </div>

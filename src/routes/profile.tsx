@@ -74,12 +74,14 @@ function Profile() {
       </div>
       <div className="flex border-t">
         <button
+          aria-label="Posts"
           onClick={() => setTab("posts")}
           className={`flex flex-1 justify-center py-3 ${tab === "posts" ? "border-b-2 border-primary" : "text-muted-foreground"}`}
         >
           <Grid3x3 />
         </button>
         <button
+          aria-label="Saved"
           onClick={() => setTab("saved")}
           className={`flex flex-1 justify-center py-3 ${tab === "saved" ? "border-b-2 border-primary" : "text-muted-foreground"}`}
         >
