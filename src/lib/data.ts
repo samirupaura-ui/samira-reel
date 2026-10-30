@@ -18,7 +18,7 @@ export const USERS: User[] = [
 
 export const userById = (id: string) => (id === "me" ? ME : USERS.find((u) => u.id === id) ?? ME);
 
-const caps = [
+const caps: [string, string, string][] = [
   ["u1", "हवा महल की सुबह 🌅 #Jaipur #IncredibleIndia", "Jaipur, Rajasthan"],
   ["u2", "आज बनाया माँ वाला राजमा चावल 😋 #घरकाखाना", "Delhi"],
   ["u3", "नया Kathak फ्यूज़न स्टेप 💃 #dance #reels", "Lucknow"],
@@ -39,14 +39,14 @@ export const POSTS: Post[] = caps.map(([userId, caption, location], i) => ({
   kind: i % 3 === 2 ? "reel" : "photo",
   time: `${i + 1} घंटे पहले`,
   comments: [
-    { id: `c${i}a`, userId: USERS[(i + 1) % 6].id, text: "बहुत सुंदर! 😍" },
-    { id: `c${i}b`, userId: USERS[(i + 3) % 6].id, text: "Wow, amazing 🔥" },
+    { id: `c${i}a`, userId: USERS[(i + 1) % 6]!.id, text: "बहुत सुंदर! 😍" },
+    { id: `c${i}b`, userId: USERS[(i + 3) % 6]!.id, text: "Wow, amazing 🔥" },
   ],
 }));
 
 export const REELS = Array.from({ length: 6 }, (_, i) => ({
   id: `r${i}`,
-  userId: USERS[i % 6].id,
+  userId: USERS[i % 6]!.id,
   image: img(`reel${i}`, 720, 1280),
   caption: ["देसी स्ट्रीट फ़ूड टूर 🍢", "1 मिनट में साड़ी ड्रेपिंग 🥻", "Himalaya sunrise 🏔️", "Bhangra challenge 🕺", "रंगोली टाइमलैप्स 🌸", "Chai pe charcha ☕"][i],
   audio: ["Original audio", "Kesariya • Arijit", "Lo-fi Sitar", "Punjabi Beat", "Classical Flute", "Chai Song"][i],

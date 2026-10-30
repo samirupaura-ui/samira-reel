@@ -51,7 +51,7 @@ export function PostCard({ post }: { post: Post }) {
         <button aria-label="Save" className="ml-auto" onClick={() => { s.toggleSave(post.id); s.notify(s.saved.has(post.id) ? "हटाया गया" : "सेव हुआ 🔖"); }}><Bookmark className={`h-6 w-6 ${s.saved.has(post.id) ? "fill-foreground" : ""}`} /></button>
       </div>
       <div className="space-y-1 px-4 pt-2 text-sm">
-        {!s.privacy.hideLikes && <p className="font-semibold">{fmt(post.likes + (liked ? 1 : 0))} लाइक्स</p>}
+        {!s.privacy["hideLikes"] && <p className="font-semibold">{fmt(post.likes + (liked ? 1 : 0))} लाइक्स</p>}
         <p><span className="font-semibold">{u.handle}</span> {post.caption}</p>
         <button className="text-muted-foreground" onClick={() => setOpen(!open)}>सभी {post.comments.length} कमेंट देखें</button>
         {open && (
