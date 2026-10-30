@@ -21,14 +21,23 @@ function Notifs() {
   const s = useStore();
   return (
     <Screen>
-      <TopBar title={<span className="font-display text-xl font-bold">{s.t("notifications")}</span>} />
+      <TopBar
+        title={<span className="font-display text-xl font-bold">{s.t("notifications")}</span>}
+      />
       {NOTIFS.map((n, i) => {
         const u = userById(n.userId);
         return (
           <div key={i} className="flex items-center gap-3 px-4 py-3">
             <Avatar src={u.avatar} size={44} />
-            <p className="flex-1 text-sm"><b>{u.handle}</b> {n.text} <span className="text-muted-foreground">{n.time}</span></p>
-            <button onClick={() => s.toggleFollow(u.id)} className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${s.following.has(u.id) ? "bg-secondary" : "bg-primary text-primary-foreground"}`}>{s.following.has(u.id) ? s.t("following") : s.t("follow")}</button>
+            <p className="flex-1 text-sm">
+              <b>{u.handle}</b> {n.text} <span className="text-muted-foreground">{n.time}</span>
+            </p>
+            <button
+              onClick={() => s.toggleFollow(u.id)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${s.following.has(u.id) ? "bg-secondary" : "bg-primary text-primary-foreground"}`}
+            >
+              {s.following.has(u.id) ? s.t("following") : s.t("follow")}
+            </button>
           </div>
         );
       })}

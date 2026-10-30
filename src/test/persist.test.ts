@@ -1,7 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { parseDemo } from "@/lib/persist";
 
-const valid = { lang: "en", authed: true, phone: "9876543210", posts: [], chats: [], privacy: { hideLikes: true }, liked: ["p1"], saved: [], following: ["u1"], blocked: ["u2"] };
+const valid = {
+  lang: "en",
+  authed: true,
+  phone: "9876543210",
+  posts: [],
+  chats: [],
+  privacy: { hideLikes: true },
+  liked: ["p1"],
+  saved: [],
+  following: ["u1"],
+  blocked: ["u2"],
+};
 
 describe("demo persistence", () => {
   it("restores saved likes, follows, blocks and language", () => {
