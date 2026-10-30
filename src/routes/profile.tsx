@@ -36,7 +36,7 @@ function Profile() {
           <div><p className="text-lg font-bold">{s.following.size}</p>{s.t("following")}</div>
         </div>
       </div>
-      <div className="px-4 text-sm"><p className="font-semibold">{ME.name}</p><p className="text-muted-foreground">{ME.bio}</p>{s.authed && <p className="text-xs text-success">✓ +91 {s.phone} (डेमो लॉगिन)</p>}</div>
+      <div className="px-4 text-sm"><p className="font-semibold">{ME.name}</p><p className="text-muted-foreground">{ME.bio}</p>{s.authed && <p className="text-xs text-warning">डेमो सत्र: +91 {s.phone} (सत्यापित नहीं)</p>}</div>
       <div className="grid grid-cols-3 gap-2 p-4">
         <Link to="/creator" className={btnGhost}><BarChart3 className="h-4 w-4" />क्रिएटर</Link>
         <Link to="/ai" className={btnGhost}><Sparkles className="h-4 w-4" />AI</Link>

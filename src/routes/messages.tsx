@@ -30,11 +30,11 @@ function Messages() {
       <header className="flex items-center gap-3 border-b px-3 py-3">
         <button onClick={() => setOpen(null)} aria-label="Back"><ArrowLeft /></button>
         <Avatar src={chat.avatar} size={36} />
-        <div className="flex-1 text-sm"><p className="font-semibold">{chat.name}</p><p className="text-xs text-muted-foreground">{chat.group ? `${chat.members!.length + 1} सदस्य` : "ऑनलाइन"}</p></div>
+        <div className="flex-1 text-sm"><p className="font-semibold">{chat.name}</p><p className="text-xs text-muted-foreground">{chat.group ? `${(chat.members?.length ?? 0) + 1} सदस्य` : "नमूना संपर्क"}</p></div>
         <Link to="/call" search={{ name: chat.name, video: false }} aria-label="Voice call"><Phone className="h-5 w-5" /></Link>
         <Link to="/call" search={{ name: chat.name, video: true }} aria-label="Video call"><Video className="h-5 w-5" /></Link>
       </header>
-      <p className="py-2 text-center"><DemoBadge>रियल-टाइम चैट डेमो</DemoBadge></p>
+      <p className="py-2 text-center"><DemoBadge>डेमो चैट — संदेश किसी को नहीं भेजे जाते</DemoBadge></p>
       <div className="flex-1 space-y-2 overflow-y-auto px-3">
         {chat.messages.map((m, i) => (
           <div key={i} className={`flex ${m.from === "me" ? "justify-end" : ""}`}>
@@ -55,6 +55,7 @@ function Messages() {
   return (
     <Screen>
       <TopBar title={<span className="font-display text-xl font-bold">{s.t("messages")}</span>} right={<button onClick={() => s.notify("नया ग्रुप (डेमो)")} aria-label="New group"><Users className="h-5 w-5" /></button>} />
+      <p className="px-4 pt-3"><DemoBadge>डेमो मैसेजिंग — रियल-टाइम नहीं</DemoBadge></p>
       {s.chats.map((c) => (
         <button key={c.id} onClick={() => setOpen(c.id)} className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-secondary">
           <Avatar src={c.avatar} size={52} />
