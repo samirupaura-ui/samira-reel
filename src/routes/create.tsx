@@ -69,7 +69,8 @@ function Create() {
             }}
           />
         </label>
-        <textarea aria-label="इनपुट"
+        <textarea
+          aria-label="इनपुट"
           value={cap}
           onChange={(e) => setCap(e.target.value)}
           rows={3}
@@ -78,7 +79,7 @@ function Create() {
         />
         <button onClick={suggest} className={btnGhost}>
           <Sparkles className="h-4 w-4 text-primary" />
-          AI कैप्शन सुझाव <DemoBadge />
+          कैप्शन सुझाव <DemoBadge>तय टेम्पलेट, AI नहीं</DemoBadge>
         </button>
         <button
           disabled={!img}

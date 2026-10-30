@@ -140,7 +140,8 @@ export function PostCard({ post }: { post: Post }) {
                 }
               }}
             >
-              <input aria-label="इनपुट"
+              <input
+                aria-label="इनपुट"
                 value={txt}
                 onChange={(e) => setTxt(e.target.value)}
                 placeholder={s.t("comment")}

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Screen, TopBar, Avatar } from "@/components/app/shell";
+import { Screen, TopBar, Avatar, DemoBadge } from "@/components/app/shell";
 import { useStore } from "@/lib/store";
 import { NOTIFS, userById } from "@/lib/data";
 
@@ -24,6 +24,9 @@ function Notifs() {
       <TopBar
         title={<span className="font-display text-xl font-bold">{s.t("notifications")}</span>}
       />
+      <p className="px-4 pt-3">
+        <DemoBadge>नमूना सूचनाएँ — पुश नोटिफ़िकेशन नहीं</DemoBadge>
+      </p>
       {NOTIFS.map((n, i) => {
         const u = userById(n.userId);
         return (

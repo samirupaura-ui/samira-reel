@@ -37,7 +37,8 @@ function Explore() {
       <div className="sticky top-0 z-30 bg-background p-3">
         <div className="flex items-center gap-2 rounded-xl bg-secondary px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
-          <input aria-label="इनपुट"
+          <input
+            aria-label="इनपुट"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder={s.t("search")}

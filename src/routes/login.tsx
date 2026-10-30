@@ -36,7 +36,7 @@ function Login() {
   };
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
       <div className="text-center">
         <Logo className="text-5xl" />
         <p className="mt-2 text-muted-foreground">{TAGLINE}</p>
@@ -60,7 +60,8 @@ function Login() {
           <label className="text-sm font-semibold">मोबाइल नंबर</label>
           <div className="flex overflow-hidden rounded-xl bg-secondary">
             <span className="flex items-center gap-1 border-r px-3 text-sm">🇮🇳 +91</span>
-            <input aria-label="इनपुट"
+            <input
+              aria-label="इनपुट"
               inputMode="numeric"
               maxLength={10}
               value={phone}
@@ -85,7 +86,8 @@ function Login() {
             +91 {phone} के लिए कोई भी 6 अंक डालें (SMS नहीं भेजा गया){" "}
             <DemoBadge>नकली OTP</DemoBadge>
           </p>
-          <input aria-label="इनपुट"
+          <input
+            aria-label="इनपुट"
             inputMode="numeric"
             maxLength={6}
             value={otp}
@@ -115,6 +117,6 @@ function Login() {
       <button onClick={() => nav({ to: "/" })} className="text-sm text-muted-foreground">
         बिना लॉगिन ब्राउज़ करें →
       </button>
-    </div>
+    </main>
   );
 }

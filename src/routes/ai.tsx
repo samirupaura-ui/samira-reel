@@ -93,7 +93,8 @@ function AI() {
           if (q.trim()) ask(q.trim());
         }}
       >
-        <input aria-label="इनपुट"
+        <input
+          aria-label="इनपुट"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="हिंदी या English में पूछें…"

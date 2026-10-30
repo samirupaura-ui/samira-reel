@@ -66,7 +66,8 @@ function useSet(init: string[] = []) {
   const toggle = (id: string) =>
     set((p) => {
       const n = new Set(p);
-      n.has(id) ? n.delete(id) : n.add(id);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
       return n;
     });
   return [s, toggle, set] as const;
@@ -108,7 +109,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setBlocked(new Set(d.blocked));
     }
     loaded.current = true;
-  }, []);
+  }, [setLiked, setSaved, setFollowing, setBlocked]);
   useEffect(() => {
     if (!loaded.current) return;
     const ok = saveDemo({

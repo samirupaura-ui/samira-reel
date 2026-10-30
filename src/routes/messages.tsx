@@ -27,7 +27,7 @@ function Messages() {
 
   if (chat)
     return (
-      <div className="mx-auto flex h-dvh max-w-md flex-col">
+      <main className="mx-auto flex h-dvh max-w-md flex-col">
         <header className="flex items-center gap-3 border-b px-3 py-3">
           <button onClick={() => setOpen(null)} aria-label="Back">
             <ArrowLeft />
@@ -74,7 +74,8 @@ function Messages() {
             }
           }}
         >
-          <input aria-label="इनपुट"
+          <input
+            aria-label="इनपुट"
             value={txt}
             onChange={(e) => setTxt(e.target.value)}
             placeholder="संदेश लिखें…"
@@ -82,7 +83,7 @@ function Messages() {
           />
           <button className="font-semibold text-primary">{s.t("send")}</button>
         </form>
-      </div>
+      </main>
     );
 
   return (

@@ -32,7 +32,7 @@ function Call() {
     return () => clearInterval(i);
   }, []);
   return (
-    <div className="relative mx-auto flex h-dvh max-w-md flex-col items-center justify-between overflow-hidden bg-card p-8">
+    <main className="relative mx-auto flex h-dvh max-w-md flex-col items-center justify-between overflow-hidden bg-card p-8">
       {cam && (
         <img
           src="https://picsum.photos/seed/callbg/720/1280"
@@ -77,6 +77,6 @@ function Call() {
           <PhoneOff />
         </button>
       </div>
-    </div>
+    </main>
   );
 }
