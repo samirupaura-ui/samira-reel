@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { loadDemo, saveDemo, clearDemo } from "./persist";
 import { CHATS, POSTS, type Chat, type Post } from "./data";
 
 export type Lang = "hi" | "en";
@@ -22,14 +23,14 @@ type State = {
   blocked: Set<string>; toggleBlock: (id: string) => void;
   privacy: Record<string, boolean>; setPrivacy: (k: string, v: boolean) => void;
   chats: Chat[]; sendMessage: (chatId: string, text: string) => void;
-  toast: string | null; notify: (s: string) => void;
+  toast: string | null; notify: (s: string) => void; resetDemo: () => void;
 };
 const Ctx = createContext<State | null>(null);
 
 function useSet(init: string[] = []) {
   const [s, set] = useState(new Set(init));
   const toggle = (id: string) => set((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  return [s, toggle] as const;
+  return [s, toggle, set] as const;
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
@@ -37,13 +38,29 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [authed, setAuthed] = useState(false);
   const [phone, setPhone] = useState("");
   const [posts, setPosts] = useState(POSTS);
-  const [liked, toggleLike] = useSet();
-  const [saved, toggleSave] = useSet();
-  const [following, toggleFollow] = useSet(["u1", "u3"]);
-  const [blocked, toggleBlock] = useSet();
+  const [liked, toggleLike, setLiked] = useSet();
+  const [saved, toggleSave, setSaved] = useSet();
+  const [following, toggleFollow, setFollowing] = useSet(["u1", "u3"]);
+  const [blocked, toggleBlock, setBlocked] = useSet();
   const [privacy, setP] = useState<Record<string, boolean>>({ privateAccount: false, hideLikes: false, limitComments: true, filterWords: true, dmFromFollowers: true, activityStatus: true });
   const [chats, setChats] = useState(CHATS);
   const [toast, setToast] = useState<string | null>(null);
+  const loaded = useRef(false);
+  // Load saved demo state after hydration (browser storage only, never during SSR).
+  useEffect(() => {
+    const d = loadDemo();
+    if (d) {
+      setLang(d.lang); setAuthed(d.authed); setPhone(d.phone); setPosts(d.posts); setChats(d.chats); setP(d.privacy);
+      setLiked(new Set(d.liked)); setSaved(new Set(d.saved)); setFollowing(new Set(d.following)); setBlocked(new Set(d.blocked));
+    }
+    loaded.current = true;
+  }, []);
+  useEffect(() => {
+    if (!loaded.current) return;
+    const ok = saveDemo({ lang, authed, phone, posts, chats, privacy, liked: [...liked], saved: [...saved], following: [...following], blocked: [...blocked] });
+    if (!ok) setToast("फ़ोन की स्टोरेज भर गई — कुछ बदलाव सेव नहीं हुए");
+  }, [lang, authed, phone, posts, chats, privacy, liked, saved, following, blocked]);
+  const resetDemo = () => { clearDemo(); location.reload(); };
   const notify = (s: string) => { setToast(s); setTimeout(() => setToast(null), 2200); };
 
   const value: State = {
@@ -58,7 +75,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setChats((c) => c.map((ch) => (ch.id === chatId ? { ...ch, messages: [...ch.messages, { from: "me", text, time: now }] } : ch)));
       setTimeout(() => setChats((c) => c.map((ch) => (ch.id === chatId ? { ...ch, messages: [...ch.messages, { from: (ch.group ? ch.members?.[0] : undefined) ?? "u1", text: "😊 (डेमो ऑटो-रिप्लाई)", time: now }] } : ch))), 1200);
     },
-    toast, notify,
+    toast, notify, resetDemo,
   };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
