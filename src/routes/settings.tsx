@@ -49,7 +49,12 @@ function SettingsPage() {
         <button onClick={() => s.notify("सुरक्षा रिपोर्ट भेजी गई (डेमो)")} className={`${btnGhost} w-full`}>🚩 समस्या रिपोर्ट करें</button>
         <p className="text-xs text-muted-foreground">आपातकाल में 112 पर कॉल करें। साइबर अपराध: cybercrime.gov.in / 1930</p>
       </section>
-      {s.authed && <div className="p-4"><button onClick={() => { s.setAuthed(false); nav({ to: "/login" }); }} className={`${btnGhost} w-full text-destructive`}>{s.t("logout")}</button></div>}
+      <section className="m-4 space-y-2 rounded-2xl bg-card p-4 text-sm">
+        <h2 className="font-semibold">💾 डेमो डेटा</h2>
+        <p className="text-muted-foreground">आपकी पोस्ट, लाइक, फ़ॉलो और सेटिंग्स सिर्फ़ इस फ़ोन/ब्राउज़र में सेव हैं — क्लाउड पर नहीं।</p>
+        <button onClick={() => { if (confirm("सारा डेमो डेटा मिटाएँ?")) s.resetDemo(); }} className={`${btnGhost} w-full`}>डेमो डेटा रीसेट करें</button>
+      </section>
+      {s.authed && <div className="p-4"><button onClick={() => { s.setAuthed(false); nav({ to: "/login" }); }} className={`${btnGhost} w-full text-destructive`}>डेमो सत्र बंद करें</button></div>}
     </Screen>
   );
 }

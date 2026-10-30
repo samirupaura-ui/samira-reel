@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ImagePlus, Sparkles, Radio } from "lucide-react";
 import { Screen, TopBar, DemoBadge, btnPrimary, btnGhost } from "@/components/app/shell";
 import { useStore } from "@/lib/store";
+import { fileToStoredImage } from "@/lib/persist";
 
 export const Route = createFileRoute("/create")({
   head: () => ({
@@ -38,12 +39,12 @@ function Create() {
         </div>
         <label className="grid aspect-square cursor-pointer place-items-center overflow-hidden rounded-2xl border-2 border-dashed bg-card">
           {img ? <img src={img} alt="preview" className="h-full w-full object-cover" /> : <span className="flex flex-col items-center gap-2 text-muted-foreground"><ImagePlus className="h-10 w-10" />गैलरी से चुनें</span>}
-          <input type="file" accept="image/*,video/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) setImg(URL.createObjectURL(f)); }} />
+          <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) fileToStoredImage(f).then(setImg).catch(() => s.notify("यह फ़ाइल फ़ोटो नहीं है")); }} />
         </label>
         <textarea value={cap} onChange={(e) => setCap(e.target.value)} rows={3} placeholder="कैप्शन लिखें…" className="w-full rounded-xl bg-secondary p-3 text-sm outline-none" />
         <button onClick={suggest} className={btnGhost}><Sparkles className="h-4 w-4 text-primary" />AI कैप्शन सुझाव <DemoBadge /></button>
         <button disabled={!img} onClick={() => { s.addPost({ id: crypto.randomUUID(), userId: "me", image: img!, caption: cap || "✨", likes: 0, comments: [], kind, time: "अभी" }); s.notify("पोस्ट शेयर हुई! 🎉"); nav({ to: "/" }); }} className={`${btnPrimary} w-full disabled:opacity-40`}>शेयर करें</button>
-        <p className="text-center text-xs text-muted-foreground">पोस्ट सिर्फ़ इस सत्र में दिखेगी — <DemoBadge>क्लाउड स्टोरेज डेमो</DemoBadge></p>
+        <p className="text-center text-xs text-muted-foreground">पोस्ट सिर्फ़ इसी फ़ोन/ब्राउज़र में सेव होगी, किसी और को नहीं दिखेगी — <DemoBadge>क्लाउड स्टोरेज नहीं</DemoBadge></p>
         <Link to="/live" className={`${btnGhost} w-full`}><Radio className="h-4 w-4 text-destructive" />लाइव जाएँ (प्रोटोटाइप)</Link>
       </div>
     </Screen>

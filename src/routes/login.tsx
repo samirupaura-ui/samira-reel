@@ -26,12 +26,12 @@ function Login() {
   const [otp, setOtp] = useState("");
   const [err, setErr] = useState("");
   const valid = /^[6-9]\d{9}$/.test(phone);
-  const done = () => { s.setAuthed(true); s.notify("स्वागत है! 🎉 (डेमो)"); nav({ to: "/" }); };
+  const done = () => { s.setAuthed(true); s.notify("डेमो सत्र शुरू — असली लॉगिन नहीं"); nav({ to: "/" }); };
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-6 p-6">
       <div className="text-center"><Logo className="text-5xl" /><p className="mt-2 text-muted-foreground">{TAGLINE}</p></div>
-      <div className="rounded-xl border border-warning/40 bg-warning/10 p-3 text-xs text-warning">⚠ डेमो: OTP SMS और Google साइन-इन अभी असली प्रदाता से जुड़े नहीं हैं। कोई भी 6 अंक (जैसे 123456) काम करेगा।</div>
+      <div className="rounded-xl border border-warning/40 bg-warning/10 p-3 text-xs text-warning">⚠ डेमो — यह सुरक्षित लॉगिन नहीं है। कोई SMS नहीं भेजा जाता, नंबर सत्यापित नहीं होता, और Google साइन-इन जुड़ा नहीं है। कोई भी 6 अंक स्वीकार होंगे। असली OTP/Google प्रदाता जुड़ने तक इसे सिर्फ़ ऐप देखने के लिए इस्तेमाल करें। Demo only: not secure authentication.</div>
       {step === "phone" ? (
         <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); if (!valid) return setErr("सही 10 अंकों का भारतीय नंबर डालें"); setErr(""); s.setPhone(phone); setStep("otp"); }}>
           <label className="text-sm font-semibold">मोबाइल नंबर</label>
@@ -40,14 +40,14 @@ function Login() {
             <input inputMode="numeric" maxLength={10} value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))} placeholder="98765 43210" className="flex-1 bg-transparent px-3 py-3 outline-none" />
           </div>
           {err && <p className="text-xs text-destructive">{err}</p>}
-          <button className={`${btnPrimary} w-full`}>OTP भेजें</button>
+          <button className={`${btnPrimary} w-full`}>आगे बढ़ें (डेमो OTP)</button>
         </form>
       ) : (
         <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); if (otp.length !== 6) return setErr("6 अंकों का OTP डालें"); done(); }}>
-          <p className="text-sm">+91 {phone} पर भेजा गया OTP डालें <DemoBadge /></p>
+          <p className="text-sm">+91 {phone} के लिए कोई भी 6 अंक डालें (SMS नहीं भेजा गया) <DemoBadge>नकली OTP</DemoBadge></p>
           <input inputMode="numeric" maxLength={6} value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))} placeholder="••••••" className="w-full rounded-xl bg-secondary px-3 py-3 text-center text-2xl tracking-[0.5em] outline-none" />
           {err && <p className="text-xs text-destructive">{err}</p>}
-          <button className={`${btnPrimary} w-full`}>सत्यापित करें</button>
+          <button className={`${btnPrimary} w-full`}>डेमो में जारी रखें</button>
           <button type="button" onClick={() => setStep("phone")} className="w-full text-xs text-muted-foreground">नंबर बदलें</button>
         </form>
       )}
